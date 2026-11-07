@@ -1,0 +1,19 @@
+.taskItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.taskTitle {
+  flex: 1;
+}
+
+.priorityTag {
+  padding: 4px 8px;
+  border-radius: 5px;
+  background-color: #ffe0e0;
+  color: red;
+}

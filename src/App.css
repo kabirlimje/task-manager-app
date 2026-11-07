@@ -1,0 +1,9 @@
+.taskLayout {
+    display: flex;
+    min-width: fit-content;
+}
+
+
+.sectionBody {
+    margin: 10px;
+}
