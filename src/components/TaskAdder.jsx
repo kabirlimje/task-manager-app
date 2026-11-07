@@ -1,51 +1,61 @@
 import { useState, useEffect } from "react";
 import "../App.css";
+import "./TaskAdder.css";
 
-function TaskAdder({passData}) {
+function TaskAdder({ passData }) {
+  let [error, setError] = useState(null);
   let [taskData, setTaskData] = useState({
     id: JSON.parse(localStorage.getItem("tasks")).length + 1,
     title: "",
-    priority: "",
+    priority: "Medium", // set default priority
     dueDate: "",
     completed: false
   });
-
-  // blueprint of data
-  // {
-  //   "id": 1,
-  //   "title": "Set up project repo",
-  //   "priority": "High",
-  //   "dueDate": "2026-01-10",
-  //   "completed": true
-  // }
-
-  // useEffect(() => {
-  //   console.log("here is the added one", taskData);
-  // }, [taskData]);
 
   // title, priority, dueDate
   function taskDataManager(e) {
     const key = e.target.name;
     const value = e.target.value;
+
+    // as user typing the title we have to remove the error of title validation
+    if (key === 'title') setError("");
+
     setTaskData((prev) => ({
       ...prev,
       [key]: value,
     }));
   }
 
+  function titleValidation() {
+    if (taskData.title.trim()) {
+      passData(taskData);
+    } else {
+      setError("Task title is required. Please enter a title.");
+    }
+  }
+
+  function handleSubmit(e) {
+    // due to this we can stop browser to reload the page and reset the state (which is its default behaviour)
+    e.preventDefault();
+
+    titleValidation();
+  }
+
   return (
     <div className="sectionBody">
-      <label>Add Task</label>
-      <div className="taskLayout">
-        <input name="title" placeholder="Add the task..." onChange={taskDataManager} />
+      <label>Task Title</label>
+      {error && <h3>{error}</h3>}
+      <form className="taskLayout" onSubmit={handleSubmit}>
+        {/* the reason behind to add the onKeyDown ot the input is that when we press enter we can submit the form */}
+        <input name="title" placeholder="Enter task title..." onChange={taskDataManager} />
         {/* HERE WHEN I CLICK THIS BUTTON THE DATA WILL PASS TO THE APP COMPONENT */}
-        <button onClick={() => passData(taskData)}>ADD</button>
-      </div>
+        <button type="submit">ADD</button>
+      </form>
       <div>
-        <button name = "priority" value = "Low" onClick={taskDataManager}>low</button>
-        <button name = "priority" value = "Medium" onClick={taskDataManager}>medium</button>
-        <button name = "priority" value = "High" onClick={taskDataManager}>high</button>
-        <input name = "dueDate" type="date" onChange={taskDataManager} />
+        <button name = "priority" value = "Low" onClick={taskDataManager} className={taskData.priority === "Low" ? "selectedButton" : ""}>low</button>
+        <button name = "priority" value = "Medium" onClick={taskDataManager} className={taskData.priority === "Medium" ? "selectedButton" : ""}>medium</button>
+        <button name = "priority" value = "High" onClick={taskDataManager} className={taskData.priority === "High" ? "selectedButton" : ""}>high</button>
+        <input name = "dueDate" type="date" onChange={taskDataManager} /><span>optional</span>
       </div>
     </div>
   )

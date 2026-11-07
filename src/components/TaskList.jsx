@@ -4,9 +4,7 @@ import "./TaskList.css";
 
 function TaskList({ listOfTaskData }) {
   useEffect(() => {
-    console.log("check this data from the TaskList component", listOfTaskData);
     localStorage.setItem("tasks", JSON.stringify(listOfTaskData));
-    console.log("localStorage ==>", localStorage.getItem("tasks"));
   }, [listOfTaskData]);
 
   return (
