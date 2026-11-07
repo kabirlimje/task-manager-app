@@ -8,6 +8,12 @@ function TaskAdder() {
         <input placeholder="Add the task..."/>
         <button>ADD</button>
       </div>
+      <div>
+        <button>low</button>
+        <button>medium</button>
+        <button>high</button>
+        <input type="date" />
+      </div>
     </div>
   )
 }

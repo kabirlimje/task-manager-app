@@ -1,22 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "../App.css";
 import "./TaskList.css";
 
 function TaskList() {
-
-  // added the starter data in the localStorage at the initial
-  useEffect(() => {
-    (async function fetchStarterData() {
-      try {
-        let response = await fetch("public/tasks.json");
-        let data = await response.json();
-        localStorage.setItem("tasks", JSON.stringify(data));
-        console.log("here ==>", data);
-      } catch (err) {
-        console.log("here ==>", err);
-      }
-    })();
-  }, []);
 
   return (
     <div className="sectionBody">
