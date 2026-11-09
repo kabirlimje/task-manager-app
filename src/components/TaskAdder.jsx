@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../App.css";
 import "./TaskAdder.css";
 
 function TaskAdder({ passData }) {
   let [error, setError] = useState(null);
+
+  // contains single task at a time
   let [taskData, setTaskData] = useState({
-    id: JSON.parse(localStorage.getItem("tasks")).length + 1,
+    id: "",
     title: "",
     priority: "Medium", // set default priority
     dueDate: "",
@@ -16,19 +18,22 @@ function TaskAdder({ passData }) {
   function taskDataManager(e) {
     const key = e.target.name;
     const value = e.target.value;
+    console.log("from the taskDataManger function ", typeof key);
 
     // as user typing the title we have to remove the error of title validation
     if (key === 'title') setError("");
 
+    // here we are adding data from the UI
     setTaskData((prev) => ({
       ...prev,
+      ['id']: JSON.parse(localStorage.getItem("tasks").length + 1),
       [key]: value,
     }));
   }
 
   function titleValidation() {
     if (taskData.title.trim()) {
-      passData(taskData);
+      passData(taskData); // single user data get passed to the App component
     } else {
       setError("Task title is required. Please enter a title.");
     }
@@ -37,7 +42,6 @@ function TaskAdder({ passData }) {
   function handleSubmit(e) {
     // due to this we can stop browser to reload the page and reset the state (which is its default behaviour)
     e.preventDefault();
-
     titleValidation();
   }
 
@@ -60,6 +64,5 @@ function TaskAdder({ passData }) {
     </div>
   )
 }
-
 
 export default TaskAdder;
