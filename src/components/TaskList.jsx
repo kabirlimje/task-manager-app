@@ -8,7 +8,6 @@ function TaskList({ listOfTaskData, onUpdateTitle }) {
   let [editTitle, setEditTitle] = useState(false);
   let [currentEleTitle, setCurrentEleTitle] = useState(false);
   let [emptyWarning, setEmptyWarning] = useState(false);
-  let [confirmation, setConfirmation] = useState(false);
 
   // handles the counter and get called from the jsx
   function calculateTaskRemaining() {
@@ -49,7 +48,8 @@ function TaskList({ listOfTaskData, onUpdateTitle }) {
       let updatedData = oldLocalStorageData.filter((ele, IDX) => IDX !== idx);
       onUpdateTitle(updatedData);
       setConfirmation(false);
-      console.log("when delete button got clicked ==>",updatedData)
+      console.log("when delete button got clicked ==>", updatedData)
+      console.log("see the oldLocalStorage ==>", oldLocalStorageData);
     }
 
     // when the checkbox is get clicked means the task is completed
@@ -58,7 +58,6 @@ function TaskList({ listOfTaskData, onUpdateTitle }) {
         oldLocalStorageData[idx].completed = false;
       } else {
         oldLocalStorageData[idx].completed = true;
-        setConfirmation(true);
       }
       onUpdateTitle(oldLocalStorageData);
     }
@@ -123,7 +122,7 @@ function TaskList({ listOfTaskData, onUpdateTitle }) {
             <span>{ele.dueDate}</span>
 
             <button onClick={(e) => handleSpan(idx, ele.title, e)}>Edit</button>
-            <button onClick={confirmation ? (e) => saveUpdatedTitle(e, idx, ele.title) : null}>Delete</button>
+            <button onClick={ele.completed && ((e) => saveUpdatedTitle(e, idx, ele.title))} disabled={!ele.completed}>Delete</button>
           </div>
         </div>
       ))}
