@@ -79,8 +79,14 @@ function App() {
   }
 
   // this add previous and current tasks of the user in the "dataOfTaskList"
+  // handled by the TaskAdder child
   function addTask(currentTask) {
     setDataOfTaskList((prev) => [...prev, currentTask]);
+  }
+
+  // handled by the TaskList child
+  function editedListOfTasks(data) {
+    setDataOfTaskList(data);
   }
 
   // when the "dataOfTaskList" got changed we have add that data into the "localStorage"
@@ -108,7 +114,7 @@ function App() {
         (<>
           <h1>Task Manager App</h1>
           <TaskAdder passData={addTask} />
-          <TaskList listOfTaskData={dataFromLocalStorage} />
+          <TaskList listOfTaskData={dataFromLocalStorage} onUpdateTitle={editedListOfTasks} />
         </>)
       }
     </>
