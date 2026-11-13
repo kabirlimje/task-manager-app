@@ -3,6 +3,7 @@ import "../App.css";
 import "./TaskAdder.css";
 
 function TaskAdder({ passData }) {
+  const today = new Date().toISOString().split("T")[0];
   let [error, setError] = useState(null);
 
   // contains single task at a time
@@ -59,7 +60,7 @@ function TaskAdder({ passData }) {
         <button name = "priority" value = "Low" onClick={taskDataManager} className={taskData.priority === "Low" ? "selectedButton" : ""}>low</button>
         <button name = "priority" value = "Medium" onClick={taskDataManager} className={taskData.priority === "Medium" ? "selectedButton" : ""}>medium</button>
         <button name = "priority" value = "High" onClick={taskDataManager} className={taskData.priority === "High" ? "selectedButton" : ""}>high</button>
-        <input name = "dueDate" type="date" onChange={taskDataManager} /><span>optional</span>
+        <input name="dueDate" type="date" onChange={taskDataManager} min={today} /><span>optional</span>
       </div>
     </div>
   )

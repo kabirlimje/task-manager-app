@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../App.css";
 import "./TaskList.css";
-import { useEffect } from "react";
 
 function TaskList({ listOfTaskData, onUpdateTitle }) {
   let [keys, setKeys] = useState("");
   let [editTitle, setEditTitle] = useState(false);
   let [currentEleTitle, setCurrentEleTitle] = useState(false);
   let [emptyWarning, setEmptyWarning] = useState(false);
+  let [navigation, setNavigation] = useState("All");
 
   // handles the counter and get called from the jsx
   function calculateTaskRemaining() {
@@ -47,9 +47,6 @@ function TaskList({ listOfTaskData, onUpdateTitle }) {
     if (e.target.textContent === "Delete") {
       let updatedData = oldLocalStorageData.filter((ele, IDX) => IDX !== idx);
       onUpdateTitle(updatedData);
-      setConfirmation(false);
-      console.log("when delete button got clicked ==>", updatedData)
-      console.log("see the oldLocalStorage ==>", oldLocalStorageData);
     }
 
     // when the checkbox is get clicked means the task is completed
@@ -83,15 +80,18 @@ function TaskList({ listOfTaskData, onUpdateTitle }) {
   // 6) added the delete button behaviour
   //    - check box awareness
   //    - remove from localStorage
+  // 7) added filter behaviour
+  // 8) added SORT implimentation
+  //    - working on sorting <- done
 
   return (
     <div className="sectionBody">
       <label>Task List</label>
 
       <div className="taskLayout">
-        <button>All</button>
-        <button>Active</button>
-        <button>Completed</button>
+        <button onClick={() => setNavigation("All")}>All</button>
+        <button onClick={() => setNavigation(false)}>Active</button>
+        <button onClick={() => setNavigation(true)}>Completed</button>
         {calculateTaskRemaining()} {/* shows the counter of remaining task */}
       </div>
       <div className="taskLayout">
@@ -99,10 +99,10 @@ function TaskList({ listOfTaskData, onUpdateTitle }) {
         <button>Search</button>
       </div>
 
-      {listOfTaskData.map((ele, idx) => (
-        <div className="taskList">
+      {(navigation !== "All" ? listOfTaskData.filter(e => e.completed === navigation) : listOfTaskData).map((ele, idx) => (
+        <div className="taskList" key={idx}>
           <div className="taskItem">
-            <input type="checkbox" onClick={(e) => saveUpdatedTitle(e, idx)} checked={ele.completed} />
+            <input type="checkbox" onChange={(e) => saveUpdatedTitle(e, idx)} checked={ele.completed} />
 
             {keys === idx ?
               <>
@@ -122,7 +122,7 @@ function TaskList({ listOfTaskData, onUpdateTitle }) {
             <span>{ele.dueDate}</span>
 
             <button onClick={(e) => handleSpan(idx, ele.title, e)}>Edit</button>
-            <button onClick={ele.completed && ((e) => saveUpdatedTitle(e, idx, ele.title))} disabled={!ele.completed}>Delete</button>
+            <button onClick={ele.completed ? ((e) => saveUpdatedTitle(e, idx, ele.title)) : undefined} disabled={!ele.completed}>Delete</button>
           </div>
         </div>
       ))}
