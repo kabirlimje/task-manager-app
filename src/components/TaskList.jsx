@@ -82,30 +82,6 @@ function TaskList({ listOfTaskData, onUpdateTitle }) {
     }
   }
 
-  // problem fix
-  // 1) solve the edit button behaviour
-  //   - input behaviour solved
-  //   - now editing part solved
-  // 2) when entering input data also solved
-  // 3) after click on the enter button edited data also added into the localStorage even it survives the reload
-  // 4) after click on the enter button input get converted into span
-  // 5) added the empty title validation and escape button behaviour
-  // 6) added the delete button behaviour
-  //    - check box awareness
-  //    - remove from localStorage
-  // 7) added filter behaviour
-  // 8) added SORT and SEARCH implimentation
-  //    - working on sorting
-  //    - working on search(case sensitive)
-  // 9) added the overdue bahviour
-  //    - when a task overdue happens shows the red overdue label
-  //    - when a title value is "fix checkout bugs" shows overdue label
-  // 10) added the reponsiveness for 375px
-  // 11) added the undo button for few seconds
-  // 12) A light / dark theme toggle that is remembered.
-  // 13) Keyboard and screen-reader friendly: real <button> elements, labels on inputs, visible focus.
-  // 14) added the beautiful UI
-
   return (
     <div className="sectionBody">
       <label>Task List</label>
