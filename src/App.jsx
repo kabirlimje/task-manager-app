@@ -28,13 +28,13 @@ function App() {
   let [dataOfTaskList, setDataOfTaskList] = useState(() => {
     try {
       let savedLocalStorage = localStorage.getItem("tasks");
-      if (savedLocalStorage === null) {
-        return null;
+      if (savedLocalStorage === "") {
+        return "";
       } else {
         return JSON.parse(savedLocalStorage);
       }
     } catch {
-      return null;
+      return "";
     }
   });
 
@@ -115,7 +115,7 @@ function App() {
       return [...highPriorities, ...mediumPriorities, ...lowPriorities];
     }
 
-    if (dataOfTaskList !== null) {
+    if (dataOfTaskList !== "") {
       localStorage.setItem("tasks", JSON.stringify(sortList()));
       setDataFromLocalStorage(JSON.parse(localStorage.getItem("tasks")));
       setLoading(false);
