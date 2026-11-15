@@ -17,7 +17,11 @@ function TaskList({ listOfTaskData, onUpdateTitle }) {
   // handles the counter and get called from the jsx
   function calculateTaskRemaining() {
     let taskRemaining = listOfTaskData.filter((ele) => ele.completed === false).length;
-    return <p>{taskRemaining} task left</p>
+    return (
+      <div className="taskRemaining">
+        <p>{taskRemaining} tasks left</p>
+      </div>
+    )
   }
 
   // this function triggers when we clicked on the edit button

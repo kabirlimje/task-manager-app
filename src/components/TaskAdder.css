@@ -4,3 +4,10 @@
   border-color: var(--selected-bg);
   font-weight: 600;
 }
+
+.taskOptions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}

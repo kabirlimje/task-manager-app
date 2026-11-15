@@ -56,11 +56,11 @@ function TaskAdder({ passData }) {
         {/* HERE WHEN I CLICK THIS BUTTON THE DATA WILL PASS TO THE APP COMPONENT */}
         <button type="submit">ADD</button>
       </form>
-      <div>
+      <div className="taskOptions">
         <button name = "priority" value = "Low" onClick={taskDataManager} className={taskData.priority === "Low" ? "selectedButton" : ""}>low</button>
         <button name = "priority" value = "Medium" onClick={taskDataManager} className={taskData.priority === "Medium" ? "selectedButton" : ""}>medium</button>
         <button name = "priority" value = "High" onClick={taskDataManager} className={taskData.priority === "High" ? "selectedButton" : ""}>high</button>
-        <input name="dueDate" type="date" onChange={taskDataManager} min={today} /><span>optional</span>
+        <input name="dueDate" type="date" onChange={taskDataManager} min={today} />
       </div>
     </div>
   )

@@ -52,3 +52,22 @@
     padding: 8px;
   }
 }
+
+.taskRemaining {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  margin: 15px 0;
+  background-color:#164E63;
+  border: 1px solid #164E63;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.taskRemaining p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color:#5DDE21;
+}

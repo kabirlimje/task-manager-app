@@ -75,7 +75,7 @@ function App() {
     if (dataOfTaskList === null) {
       fetchStarterData();
     }
-  }, []);
+  }, [dataOfTaskList]);
 
   useEffect(() => {
     localStorage.setItem("theme", JSON.stringify(theme));
@@ -107,20 +107,20 @@ function App() {
   // when the "dataOfTaskList" got changed we have add that data into the "localStorage"
   // and also we have to add the localStorage 'parse' data into the "dataFromLocalStorage"
   useEffect(() => {
+    // make the data to list down according to the sorted order on the UI
+    function sortList() {
+      let highPriorities = dataOfTaskList.filter(e => e.priority === "High").sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+      let mediumPriorities = dataOfTaskList.filter(e => e.priority === "Medium").sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+      let lowPriorities = dataOfTaskList.filter(e => e.priority === "Low").sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+      return [...highPriorities, ...mediumPriorities, ...lowPriorities];
+    }
+
     if (dataOfTaskList !== null) {
       localStorage.setItem("tasks", JSON.stringify(sortList()));
       setDataFromLocalStorage(JSON.parse(localStorage.getItem("tasks")));
       setLoading(false);
     }
   }, [dataOfTaskList]);
-
-  // make the data to list down according to the sorted order on the UI
-  function sortList() {
-    let highPriorities = dataOfTaskList.filter(e => e.priority === "High").sort((a, b) => a.dueDate.localeCompare(b.dueDate));
-    let mediumPriorities = dataOfTaskList.filter(e => e.priority === "Medium").sort((a, b) => a.dueDate.localeCompare(b.dueDate));
-    let lowPriorities = dataOfTaskList.filter(e => e.priority === "Low").sort((a, b) => a.dueDate.localeCompare(b.dueDate));
-    return [...highPriorities, ...mediumPriorities, ...lowPriorities];
-  }
 
   function toggleTheme() {
     setTheme(() => {
