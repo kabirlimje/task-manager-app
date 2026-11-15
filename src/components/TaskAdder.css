@@ -1,3 +1,6 @@
 .selectedButton {
-    background-color: chartreuse;
+  background-color: var(--selected-bg);
+  color: var(--selected-text);
+  border-color: var(--selected-bg);
+  font-weight: 600;
 }

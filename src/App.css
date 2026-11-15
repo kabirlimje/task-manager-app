@@ -1,24 +1,204 @@
-.taskLayout {
-    display: flex;
-    min-width: fit-content;
+/* ---------- Theme colors ---------- */
+:root {
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #d9dee7;
+  --primary: #3b82f6;
+  --primary-text: #ffffff;
+  --input-bg: #ffffff;
+  --tag-bg: #ffe0e0;
+  --tag-text: #b91c1c;
+  --selected-bg: #bbf7d0;
+  --selected-text: #14532d;
+  --focus: #2563eb;
+  --toggle-bg: #cbd5e1;
+  --spinner-track: #e5e7eb;
+  color-scheme: light;
 }
 
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --border: #334155;
+  --primary: #60a5fa;
+  --primary-text: #0b1220;
+  --input-bg: #0f172a;
+  --tag-bg: #4c1d1d;
+  --tag-text: #fca5a5;
+  --selected-bg: #166534;
+  --selected-text: #dcfce7;
+  --focus: #93c5fd;
+  --toggle-bg: #3b82f6;
+  --spinner-track: #334155;
+  color-scheme: dark;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  transition: background 0.3s, color 0.3s;
+}
+
+h1 {
+  margin: 20px 10px 8px;
+}
+
+h3 {
+  margin: 8px 0;
+  color: #ef4444;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+/* ---------- Layout ---------- */
 .sectionBody {
-    margin: 10px;
+  margin: 10px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
 }
 
+.taskLayout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.taskLayout input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px;
+}
+
+.taskLayout p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* ---------- Buttons ---------- */
+button {
+  padding: 6px 14px;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--primary);
+}
+
+button[type="submit"] {
+  color: var(--primary-text);
+  background: var(--primary);
+  border-color: var(--primary);
+  font-weight: 600;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------- Inputs ---------- */
+input[type="text"],
+input[type="date"],
+input:not([type]),
+input[placeholder] {
+  font: inherit;
+  color: var(--text);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+input::placeholder {
+  color: var(--muted);
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+/* ---------- Visible focus (keyboard users) ---------- */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Theme toggle switch ---------- */
+.theme-toggle {
+  position: relative;
+  width: 56px;
+  height: 28px;
+  margin: 0 10px 8px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: var(--toggle-bg);
+  transition: background 0.3s;
+}
+
+.theme-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #ffffff;
+  font-size: 14px;
+  transition: transform 0.3s;
+}
+
+[data-theme="dark"] .theme-toggle-thumb {
+  transform: translateX(28px);
+}
+
+/* ---------- Loader ---------- */
 .loader-wrap {
   display: grid;
   place-items: center;
   min-height: 100vh;
+  text-align: center;
 }
 
 .spinner {
-  display: inline-block;          /* ensures transform/animation applies */
+  display: inline-block;
   width: 40px;
   height: 40px;
-  border: 4px solid #e5e7eb;      /* light track (shorthand first) */
-  border-top-color: #3b82f6;      /* blue moving part (override AFTER) */
+  border: 4px solid var(--spinner-track);
+  border-top-color: var(--primary);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   will-change: transform;
@@ -27,4 +207,15 @@
 @keyframes spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+    margin: 12px 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
 }

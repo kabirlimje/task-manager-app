@@ -48,11 +48,11 @@ function TaskAdder({ passData }) {
 
   return (
     <div className="sectionBody">
-      <label>Task Title</label>
+      <label htmlFor="title">Task Title</label>
       {error && <h3>{error}</h3>}
       <form className="taskLayout" onSubmit={handleSubmit}>
         {/* the reason behind to add the onKeyDown ot the input is that when we press enter we can submit the form */}
-        <input name="title" placeholder="Enter task title..." onChange={taskDataManager} />
+        <input id="title" name="title" placeholder="Enter task title..." onChange={taskDataManager} />
         {/* HERE WHEN I CLICK THIS BUTTON THE DATA WILL PASS TO THE APP COMPONENT */}
         <button type="submit">ADD</button>
       </form>

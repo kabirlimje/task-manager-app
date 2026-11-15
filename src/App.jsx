@@ -7,6 +7,18 @@ function App() {
   let [retry, setRetryButton] = useState(false);
   let [errorStatus, setErrorStatus] = useState(null);
   let [customErrorDisplay, setCustomErrorDisplay] = useState(false);
+  let [theme, setTheme] = useState(() => {
+    let savedLocalStorage = localStorage.getItem("theme");
+    try {
+      if (savedLocalStorage === null) {
+        return "light";
+      } else {
+        return JSON.parse(savedLocalStorage);
+      }
+    } catch {
+      return "light";
+    }
+  })
 
   // create because we wants the data from the localStorage
   let [dataFromLocalStorage, setDataFromLocalStorage] = useState(false);
@@ -27,8 +39,6 @@ function App() {
   });
 
   let [loading, setLoading] = useState(true);
-
-
   async function fetchStarterData() {
     try {
       let response = await fetch("./tasks.json");
@@ -66,6 +76,11 @@ function App() {
       fetchStarterData();
     }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("theme", JSON.stringify(theme));
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme])
 
   // when click on the retry button it should refetched the data load appears and fetch button gone
   // and according to response (if error gets retry button display again)
@@ -107,6 +122,12 @@ function App() {
     return [...highPriorities, ...mediumPriorities, ...lowPriorities];
   }
 
+  function toggleTheme() {
+    setTheme(() => {
+      return theme === "light" ? "dark" : "light";
+    })
+  }
+
   return (
     <>
       {
@@ -120,7 +141,17 @@ function App() {
               <div className="spinner" role="status" aria-label="Loading"></div>}
           </div>):
         (<>
-          <h1>Task Manager App</h1>
+            <h1>Task Manager App</h1>
+            <button
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={`Toggle ${theme} mode`}
+              aria-pressed={theme === "dark"}
+            >
+              <span className="theme-toggle-thumb">
+                {theme === "dark" ? "🌙" : "☀️"}
+              </span>
+            </button>
           <TaskAdder passData={addTask} />
           <TaskList listOfTaskData={dataFromLocalStorage} onUpdateTitle={editedListOfTasks} />
         </>)

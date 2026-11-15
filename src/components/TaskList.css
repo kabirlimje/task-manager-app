@@ -1,19 +1,54 @@
+.taskList {
+  margin-top: 8px;
+}
+
 .taskItem {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
   padding: 12px;
-  border: 1px solid #ddd;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 8px;
 }
 
 .taskTitle {
-  flex: 1;
+  flex: 1 1 150px;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .priorityTag {
   padding: 4px 8px;
   border-radius: 5px;
-  background-color: #ffe0e0;
-  color: red;
+  background-color: var(--tag-bg);
+  color: var(--tag-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.overdue-label {
+  color: #fff;
+  background-color: #dc2626;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .taskItem {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .taskTitle {
+    flex: 1 1 calc(100% - 40px);
+  }
+
+  .taskItem button {
+    flex: 1 1 45%;
+    padding: 8px;
+  }
 }
