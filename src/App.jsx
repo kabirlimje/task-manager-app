@@ -28,13 +28,13 @@ function App() {
   let [dataOfTaskList, setDataOfTaskList] = useState(() => {
     try {
       let savedLocalStorage = localStorage.getItem("tasks");
-      if (savedLocalStorage === "") {
-        return "";
+      if (savedLocalStorage === null) {
+        return null;
       } else {
         return JSON.parse(savedLocalStorage);
       }
     } catch {
-      return "";
+      return null;
     }
   });
 
@@ -72,7 +72,7 @@ function App() {
 
   // this make sures that the fetching process happens only once when the component mounts
   useEffect(() => {
-    if (dataOfTaskList === "") {
+    if (dataOfTaskList === null) {
       fetchStarterData();
     }
   }, [dataOfTaskList]);
@@ -109,13 +109,13 @@ function App() {
   useEffect(() => {
     // make the data to list down according to the sorted order on the UI
     function sortList() {
-  let highPriorities = dataOfTaskList.filter(e => e.priority === "High").sort((a, b) => a.dueDate.localeCompare(b.dueDate));
-  let mediumPriorities = dataOfTaskList.filter(e => e.priority === "Medium").sort((a, b) => a.dueDate.localeCompare(b.dueDate));
-  let lowPriorities = dataOfTaskList.filter(e => e.priority === "Low").sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+  let highPriorities = dataOfTaskList.filter(e => e.priority === "High").sort((a, b) => (a.dueDate ?? "").localeCompare(b.dueDate ?? ""));
+  let mediumPriorities = dataOfTaskList.filter(e => e.priority === "Medium").sort((a, b) => (a.dueDate ?? "").localeCompare(b.dueDate ?? ""));
+  let lowPriorities = dataOfTaskList.filter(e => e.priority === "Low").sort((a, b) => (a.dueDate ?? "").localeCompare(b.dueDate ?? ""));
   return [...highPriorities, ...mediumPriorities, ...lowPriorities];
 }
 
-    if (dataOfTaskList !== "") {
+    if (dataOfTaskList !== null) {
       localStorage.setItem("tasks", JSON.stringify(sortList()));
       setDataFromLocalStorage(JSON.parse(localStorage.getItem("tasks")));
       setLoading(false);
