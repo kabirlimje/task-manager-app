@@ -26,17 +26,17 @@ function App() {
   // lazy initialization -: which helps my state to survive the reload
   // runs at #1 render
   let [dataOfTaskList, setDataOfTaskList] = useState(() => {
-    try {
-      let savedLocalStorage = localStorage.getItem("tasks");
-      if (savedLocalStorage === "") {
-        return "";
-      } else {
-        return JSON.parse(savedLocalStorage);
-      }
-    } catch {
-      return "";
+  try {
+    let savedLocalStorage = localStorage.getItem("tasks");
+    if (savedLocalStorage === null) {
+      return null;
+    } else {
+      return JSON.parse(savedLocalStorage);
     }
-  });
+  } catch {
+    return null;
+  }
+});
 
   let [loading, setLoading] = useState(true);
   async function fetchStarterData() {
@@ -115,7 +115,7 @@ function App() {
   return [...highPriorities, ...mediumPriorities, ...lowPriorities];
 }
 
-    if (dataOfTaskList !== "") {
+    if (dataOfTaskList !== null) {
       localStorage.setItem("tasks", JSON.stringify(sortList()));
       setDataFromLocalStorage(JSON.parse(localStorage.getItem("tasks")));
       setLoading(false);
