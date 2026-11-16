@@ -26,17 +26,17 @@ function App() {
   // lazy initialization -: which helps my state to survive the reload
   // runs at #1 render
   let [dataOfTaskList, setDataOfTaskList] = useState(() => {
-  try {
-    let savedLocalStorage = localStorage.getItem("tasks");
-    if (savedLocalStorage === null) {
-      return null;
-    } else {
-      return JSON.parse(savedLocalStorage);
+    try {
+      let savedLocalStorage = localStorage.getItem("tasks");
+      if (savedLocalStorage === "") {
+        return "";
+      } else {
+        return JSON.parse(savedLocalStorage);
+      }
+    } catch {
+      return "";
     }
-  } catch {
-    return null;
-  }
-});
+  });
 
   let [loading, setLoading] = useState(true);
   async function fetchStarterData() {
@@ -72,7 +72,7 @@ function App() {
 
   // this make sures that the fetching process happens only once when the component mounts
   useEffect(() => {
-    if (dataOfTaskList === null) {
+    if (dataOfTaskList === "") {
       fetchStarterData();
     }
   }, [dataOfTaskList]);
@@ -109,13 +109,13 @@ function App() {
   useEffect(() => {
     // make the data to list down according to the sorted order on the UI
     function sortList() {
-  let highPriorities = dataOfTaskList.filter(e => e.priority === "High").sort((a, b) => (a.dueDate ?? "").localeCompare(b.dueDate ?? ""));
-  let mediumPriorities = dataOfTaskList.filter(e => e.priority === "Medium").sort((a, b) => (a.dueDate ?? "").localeCompare(b.dueDate ?? ""));
-  let lowPriorities = dataOfTaskList.filter(e => e.priority === "Low").sort((a, b) => (a.dueDate ?? "").localeCompare(b.dueDate ?? ""));
+  let highPriorities = dataOfTaskList.filter(e => e.priority === "High").sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+  let mediumPriorities = dataOfTaskList.filter(e => e.priority === "Medium").sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+  let lowPriorities = dataOfTaskList.filter(e => e.priority === "Low").sort((a, b) => a.dueDate.localeCompare(b.dueDate));
   return [...highPriorities, ...mediumPriorities, ...lowPriorities];
 }
 
-    if (dataOfTaskList !== null) {
+    if (dataOfTaskList !== "") {
       localStorage.setItem("tasks", JSON.stringify(sortList()));
       setDataFromLocalStorage(JSON.parse(localStorage.getItem("tasks")));
       setLoading(false);
